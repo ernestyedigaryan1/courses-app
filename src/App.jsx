@@ -9,7 +9,6 @@ import './App.css';
 function App() {
 	let [courses, setCourses] = useState([]);
 	let [authors, setAuthors] = useState([]);
-	let [query, setQuery] = useState('');
 	let [searchQuery, setSearchQuery] = useState('');
 	let [toggle, setToggle] = useState(true);
 
@@ -36,6 +35,10 @@ function App() {
 			});
 	}, []);
 
+	const onSearch = (query) => {
+		setSearchQuery(query);
+	};
+
 	return (
 		<>
 			<Header />
@@ -43,9 +46,7 @@ function App() {
 				<Courses
 					onToggle={() => setToggle(!toggle)}
 					courses={filteredCourses}
-					query={query}
-					onQueryChange={(myQuery) => setQuery(myQuery)}
-					onClick={() => setSearchQuery(query)}
+					onSearch={(query) => onSearch(query)}
 					authors={authors}
 				/>
 			) : (

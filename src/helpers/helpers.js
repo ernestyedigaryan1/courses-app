@@ -9,17 +9,6 @@ export const getRandomString = (length) => {
 	return result;
 };
 
-export const validateInput = (state, setState) => {
-	if (state.length === 0) {
-		setState('');
-		return alert("Input field can't be empty.");
-	}
-	if (state.length < 2) {
-		setState('');
-		return alert('Input field must be no less than 2 letters.');
-	}
-};
-
 export const generateID = () => {
 	return `${getRandomString(8)}-${getRandomString(4)}-${getRandomString(
 		4

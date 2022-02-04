@@ -1,6 +1,6 @@
 import humanizeDuration from 'humanize-duration';
 
-import Button from './../Button/Button';
+import Button from '../../../../common/Button/Button';
 
 const CourseCard = ({ title, description, authors, duration, created }) => {
 	const formattedDuration = humanizeDuration(duration * 60000);

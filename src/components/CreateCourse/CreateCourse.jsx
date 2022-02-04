@@ -2,9 +2,9 @@ import { useState } from 'react';
 import humanizeDuration from 'humanize-duration';
 import Moment from 'react-moment';
 
-import Input from '../Input/Input';
-import Button from '../Button/Button';
-import { generateID, validateInput } from '../../common/common';
+import Input from '../../common/Input/Input';
+import Button from '../../common/Button/Button';
+import { generateID } from '../../helpers/helpers';
 
 const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 	let [title, setTitle] = useState('');
@@ -65,14 +65,11 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 		<div className='container-fluid card border-primary rounded-0'>
 			<section className='row justify-content-between'>
 				<div className='col-4'>
-					<label>Title</label>
-					<input
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
-						onBlur={() => validateInput(title, setTitle)}
-						aria-label='Enter title...'
-						placeholder='Enter title...'
-						className='form-control border-success rounded-0'
+					<Input
+						query={title}
+						onQueryChange={(myQuery) => setTitle(myQuery)}
+						labelText='Title'
+						placeholderText='Enter title...'
 					/>
 				</div>
 				<div className='col-2 mt-4'>
@@ -91,7 +88,6 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 					<textarea
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
-						onBlur={() => validateInput(description, setDescription)}
 						className='form-control border-warning'
 						placeholder='Leave a comment here'
 					/>
@@ -104,11 +100,10 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 						<div className='m-3'>
 							<div>
 								<h3 className='text-center'>Add author</h3>
-								<label>Author name</label>
 								<Input
 									query={authorQuery}
 									onQueryChange={(myQuery) => setAuthorQuery(myQuery)}
-									labelText='Enter author name...'
+									labelText='Author name'
 									placeholderText='Enter author name...'
 								/>
 							</div>
@@ -122,11 +117,10 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 							<br />
 							<div>
 								<h3 className='text-center m-4'>Duration</h3>
-								<label>Duration</label>
 								<Input
 									query={duration}
 									onQueryChange={(myDuration) => addDuration(myDuration)}
-									labelText='Enter duration in minutes...'
+									labelText='Duration'
 									placeholderText='Enter duration in minutes...'
 								/>
 								<h1>Duration: {formattedDuration}</h1>

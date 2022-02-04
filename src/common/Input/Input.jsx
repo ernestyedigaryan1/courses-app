@@ -1,5 +1,6 @@
 const Input = ({ query, onQueryChange, labelText, placeholderText }) => (
 	<div className='mb-3'>
+		{labelText ? <label>{labelText}</label> : <></>}
 		<input
 			value={query}
 			type='text'

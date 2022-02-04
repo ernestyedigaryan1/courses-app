@@ -1,22 +1,11 @@
-import CourseCard from '../CourseCard/CourseCard';
-import SearchBar from '../SearchBar/SearchBar';
-import Button from '../Button/Button';
+import CourseCard from './components/CourseCard/CourseCard';
+import SearchBar from './components/SearchBar/SearchBar';
+import Button from '../../common/Button/Button';
 
-const Courses = ({
-	courses,
-	query,
-	onQueryChange,
-	onClick,
-	onToggle,
-	authors,
-}) => (
+const Courses = ({ courses, onSearch, onToggle, authors }) => (
 	<div className='container-fluid card border-primary rounded-0'>
 		<div className='row'>
-			<SearchBar
-				query={query}
-				onChange={(myQuery) => onQueryChange(myQuery)}
-				onClick={() => onClick()}
-			/>
+			<SearchBar onSearch={(query) => onSearch(query)} />
 			<div className='col-3 mt-3'>
 				<Button
 					onClick={() => onToggle()}
