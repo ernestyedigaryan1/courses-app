@@ -1,9 +1,16 @@
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-const CourseInfo = ({ courses, authors }) => {
+import { Link, useParams } from 'react-router-dom';
+import { getCourseById } from '../../services/getCourseById';
+
+const CourseInfo = ({ authors }) => {
 	const { id } = useParams();
 
-	const [course] = courses.filter((course) => course.id === id);
+	const [course, setCourse] = useState(null);
+
+	useEffect(() => {
+		getCourseById(id).then((response) => setCourse(response));
+	}, [id]);
 
 	return (
 		<div className='container'>

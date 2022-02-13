@@ -3,34 +3,26 @@ import { useState } from 'react';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
+import { postFetch } from '../../services/postFetch';
 
 const Login = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [user, setUser] = useState({
+		email: '',
+		password: '',
+	});
 	const history = useHistory();
-
-	const user = {
-		email,
-		password,
-	};
 
 	const userLogin = async (e) => {
 		e.preventDefault();
-		const response = await fetch('http://localhost:3001/login', {
-			method: 'POST',
-			body: JSON.stringify(user),
-			headers: {
-				'Content-Type': 'application/json',
-			},
+		postFetch('/login', user).then((response) => {
+			if (response.successful) {
+				localStorage.setItem('token', response.result);
+				localStorage.setItem('user', JSON.stringify(response.user));
+				history.push('/courses');
+			} else {
+				alert(response.errors || response.result);
+			}
 		});
-		const result = await response.json();
-		if (result.successful) {
-			localStorage.setItem('token', result.result);
-			localStorage.setItem('user', JSON.stringify(result.user));
-			history.push('/courses');
-		} else {
-			alert(result.errors || result.result);
-		}
 	};
 
 	return (
@@ -39,15 +31,15 @@ const Login = () => {
 			<h3 className='text-center'>Login</h3>
 			<form onSubmit={(e) => userLogin(e)}>
 				<Input
-					query={email}
-					onQueryChange={(myQuery) => setEmail(myQuery)}
+					query={user.email}
+					onQueryChange={(myQuery) => setUser({ ...user, email: myQuery })}
 					labelText='Email'
 					placeholderText='Enter email...'
 				/>
 				<Input
-					query={password}
+					query={user.password}
 					type='password'
-					onQueryChange={(myQuery) => setPassword(myQuery)}
+					onQueryChange={(myQuery) => setUser({ ...user, password: myQuery })}
 					labelText='Password'
 					placeholderText='Enter password...'
 				/>

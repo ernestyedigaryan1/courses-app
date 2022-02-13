@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Content from './components/Content/Content';
@@ -9,10 +9,9 @@ import './App.css';
 
 function App() {
 	const [token, setToken] = useState('');
-	const history = useHistory();
+	const location = useLocation();
 
-	useEffect(() => setToken(localStorage.token));
-	useEffect(() => history.listen(() => setToken(localStorage.token)));
+	useEffect(() => setToken(localStorage.token), [location]);
 
 	return (
 		<>

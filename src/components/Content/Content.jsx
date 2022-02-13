@@ -25,9 +25,6 @@ const Content = () => {
 				<Route exact path='/courses'>
 					<Courses courses={courses} authors={authors} />
 				</Route>
-				<Route exact path='/courses/:id'>
-					<CourseInfo courses={courses} authors={authors} />
-				</Route>
 				<Route path='/courses/add'>
 					<CreateCourse
 						onSendCourse={(course) => setCourses([...courses, course])}
@@ -35,8 +32,11 @@ const Content = () => {
 						onAddAuthor={(newAuthor) => setAuthors([...authors, newAuthor])}
 					/>
 				</Route>
+				<Route exact path='/courses/:id'>
+					<CourseInfo authors={authors} />
+				</Route>
 				<Route path='/'>
-					<Courses />
+					<Courses courses={courses} authors={authors} />
 				</Route>
 			</Switch>
 		</>

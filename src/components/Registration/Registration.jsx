@@ -1,35 +1,27 @@
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
-import { Link, useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import { postFetch } from '../../services/postFetch';
 
 const Registration = () => {
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [user, setUser] = useState({
+		name: '',
+		password: '',
+		email: '',
+	});
 	const history = useHistory();
-
-	const newUser = {
-		name,
-		password,
-		email,
-	};
 
 	const userRegister = async (e) => {
 		e.preventDefault();
-		const response = await fetch('http://localhost:3001/register', {
-			method: 'POST',
-			body: JSON.stringify(newUser),
-			headers: {
-				'Content-Type': 'application/json',
-			},
+		postFetch('/login', user).then((response) => {
+			if (response.successful) {
+				history.push('/login');
+			} else {
+				alert(response.errors || response.result);
+			}
 		});
-		const result = await response.json();
-		if (result.successful) {
-			history.push('/login');
-		} else {
-			alert(result.errors);
-		}
 	};
 
 	return (
@@ -38,21 +30,21 @@ const Registration = () => {
 			<h3 className='text-center'>Registration</h3>
 			<form onSubmit={(e) => userRegister(e)}>
 				<Input
-					query={name}
-					onQueryChange={(myQuery) => setName(myQuery)}
+					query={user.name}
+					onQueryChange={(myQuery) => setUser({ ...user, name: myQuery })}
 					labelText='Name'
 					placeholderText='Enter name...'
 				/>
 				<Input
-					query={email}
-					onQueryChange={(myQuery) => setEmail(myQuery)}
+					query={user.email}
+					onQueryChange={(myQuery) => setUser({ ...user, email: myQuery })}
 					labelText='Email'
 					placeholderText='Enter email...'
 				/>
 				<Input
-					query={password}
+					query={user.password}
 					type='password'
-					onQueryChange={(myQuery) => setPassword(myQuery)}
+					onQueryChange={(myQuery) => setUser({ ...user, password: myQuery })}
 					labelText='Password'
 					placeholderText='Enter password...'
 				/>
