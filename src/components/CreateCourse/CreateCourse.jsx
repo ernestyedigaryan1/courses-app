@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import humanizeDuration from 'humanize-duration';
 import Moment from 'react-moment';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import { generateID } from '../../helpers/helpers';
+import { createAuthor } from '../../redux/src/store/authors/actionCreators';
+import { createCourse } from '../../redux/src/store/courses/actionCreators';
+import { selectAuthors } from '../../redux/src/selectors/selectors';
 
-const CreateCourse = ({ onSendCourse, onAddAuthor, authors }) => {
+const CreateCourse = () => {
+	const dispatch = useDispatch();
+	const [filteredAuthors, setFilteredAuthors] = useState([]);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [authorQuery, setAuthorQuery] = useState('');
@@ -17,12 +23,26 @@ const CreateCourse = ({ onSendCourse, onAddAuthor, authors }) => {
 
 	const formattedDuration = humanizeDuration(duration * 60000);
 
+	const authors = useSelector(selectAuthors());
+
+	useEffect(
+		() =>
+			setFilteredAuthors(
+				authors.filter((author) => {
+					return !JSON.stringify(selectedAuthors).includes(
+						JSON.stringify(author.id)
+					);
+				})
+			),
+		[selectedAuthors, authors]
+	);
+
 	const addAuthor = () => {
 		if (authorQuery.length < 2) {
 			setAuthorQuery('');
 			return alert('Input field must be no less than 2 letters.');
 		}
-		onAddAuthor({ id: generateID(), name: authorQuery });
+		dispatch(createAuthor({ id: generateID(), name: authorQuery }));
 		setAuthorQuery('');
 	};
 
@@ -57,7 +77,7 @@ const CreateCourse = ({ onSendCourse, onAddAuthor, authors }) => {
 			authors: selectedAuthors.map((item) => item.id),
 		};
 		if (title && description && duration && authors) {
-			onSendCourse(courseInfo);
+			dispatch(createCourse(courseInfo));
 			return setCourseAdded(true);
 		}
 		alert('Please, fill in all fields');
@@ -133,26 +153,20 @@ const CreateCourse = ({ onSendCourse, onAddAuthor, authors }) => {
 					<div className='col-6'>
 						<div className='m-3'>
 							<h3 className='text-center'>Authors</h3>
-							{authors.map((author) => {
-								return JSON.stringify(selectedAuthors).includes(
-									JSON.stringify(author)
-								) ? (
-									<></>
-								) : (
-									<div key={author.id} className='row mt-3'>
-										<div className='col-6'>
-											<p>{author.name}</p>
-										</div>
-										<div className='col-6'>
-											<Button
-												onClick={(e) => selectAuthor(author, e)}
-												text='Add author'
-												color='col-4 btn btn-outline-success'
-											/>
-										</div>
+							{filteredAuthors.map((author) => (
+								<div key={author.id} className='row mt-3'>
+									<div className='col-6'>
+										<p>{author.name}</p>
 									</div>
-								);
-							})}
+									<div className='col-6'>
+										<Button
+											onClick={(e) => selectAuthor(author, e)}
+											text='Add author'
+											color='col-4 btn btn-outline-success'
+										/>
+									</div>
+								</div>
+							))}
 							<h3 className='text-center mt-4'> Course authors</h3>
 							{selectedAuthors.length === 0 ? (
 								<p className='text-center'> Author list is empty</p>

@@ -1,9 +1,11 @@
 import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import { postFetch } from '../../services/postFetch';
+import { putUser } from '../../redux/src/store/user/actionCreators';
 
 const Login = () => {
 	const [user, setUser] = useState({
@@ -11,11 +13,20 @@ const Login = () => {
 		password: '',
 	});
 	const history = useHistory();
+	const dispatch = useDispatch();
 
 	const userLogin = async (e) => {
 		e.preventDefault();
 		postFetch('/login', user).then((response) => {
 			if (response.successful) {
+				dispatch(
+					putUser({
+						isAuth: true,
+						name: response.user.name,
+						email: response.user.email,
+						token: response.result,
+					})
+				);
 				localStorage.setItem('token', response.result);
 				localStorage.setItem('user', JSON.stringify(response.user));
 				history.push('/courses');

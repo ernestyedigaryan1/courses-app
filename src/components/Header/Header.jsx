@@ -1,11 +1,22 @@
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { putUser } from '../../redux/src/store/user/actionCreators';
 import Logo from './components/Logo/Logo';
 import Button from '../../common/Button/Button';
 
 const Header = () => {
+	const dispatch = useDispatch();
 	const history = useHistory();
 	const userLogout = () => {
+		dispatch(
+			putUser({
+				isAuth: false,
+				name: '',
+				email: '',
+				token: '',
+			})
+		);
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
 		history.push('/login');
