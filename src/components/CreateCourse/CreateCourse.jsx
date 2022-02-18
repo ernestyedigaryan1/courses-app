@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import humanizeDuration from 'humanize-duration';
 import Moment from 'react-moment';
 
@@ -6,12 +7,13 @@ import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import { generateID } from '../../helpers/helpers';
 
-const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
-	let [title, setTitle] = useState('');
-	let [description, setDescription] = useState('');
-	let [authorQuery, setAuthorQuery] = useState('');
-	let [selectedAuthors, setSelectedAuthors] = useState([]);
-	let [duration, setDuration] = useState('');
+const CreateCourse = ({ onSendCourse, onAddAuthor, authors }) => {
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [authorQuery, setAuthorQuery] = useState('');
+	const [selectedAuthors, setSelectedAuthors] = useState([]);
+	const [duration, setDuration] = useState('');
+	const [courseAdded, setCourseAdded] = useState(false);
 
 	const formattedDuration = humanizeDuration(duration * 60000);
 
@@ -46,7 +48,7 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 	};
 
 	const dataPublish = () => {
-		let courseInfo = {
+		const courseInfo = {
 			id: generateID(),
 			title: title,
 			description: description,
@@ -56,7 +58,7 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 		};
 		if (title && description && duration && authors) {
 			onSendCourse(courseInfo);
-			return onToggle();
+			return setCourseAdded(true);
 		}
 		alert('Please, fill in all fields');
 	};
@@ -78,6 +80,7 @@ const CreateCourse = ({ onSendCourse, onToggle, onAddAuthor, authors }) => {
 						text='Create course'
 						color='btn btn-outline-danger rounded-0'
 					/>
+					{courseAdded && <Redirect to='/courses' />}
 				</div>
 			</section>
 			<section>

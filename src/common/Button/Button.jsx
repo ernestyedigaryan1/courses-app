@@ -1,5 +1,5 @@
 const Button = ({ text, onClick, color }) => (
-	<button type='button' className={color} onClick={onClick}>
+	<button type='submit' className={color} onClick={onClick}>
 		{text}
 	</button>
 );

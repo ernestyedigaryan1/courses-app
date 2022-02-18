@@ -1,9 +1,10 @@
-import Input from '../../../../common/Input/Input';
-import Button from '../../../../common/Button/Button';
 import { useEffect, useState } from 'react';
 
+import Input from '../../../../common/Input/Input';
+import Button from '../../../../common/Button/Button';
+
 const SearchBar = ({ onSearch }) => {
-	let [searchQuery, setSearchQuery] = useState('');
+	const [searchQuery, setSearchQuery] = useState('');
 
 	useEffect(() => {
 		if (searchQuery === '') {

@@ -1,8 +1,9 @@
 import humanizeDuration from 'humanize-duration';
+import { Link } from 'react-router-dom';
 
 import Button from '../../../../common/Button/Button';
 
-const CourseCard = ({ title, description, authors, duration, created }) => {
+const CourseCard = ({ id, title, description, authors, duration, created }) => {
 	const formattedDuration = humanizeDuration(duration * 60000);
 
 	return (
@@ -24,7 +25,9 @@ const CourseCard = ({ title, description, authors, duration, created }) => {
 						<b>Created:</b> {created}
 					</p>
 					<div className='col-md-4 offset-md-2'>
-						<Button text='Show course' color='btn btn-outline-success' />
+						<Link to={`courses/${id}`}>
+							<Button text='Show course' color='btn btn-outline-success' />
+						</Link>
 					</div>
 				</div>
 			</div>
