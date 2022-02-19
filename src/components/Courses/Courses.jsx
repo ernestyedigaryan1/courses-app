@@ -14,8 +14,8 @@ import {
 const Courses = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 
-	const courses = useSelector(selectCourses());
-	const authors = useSelector(selectAuthors());
+	const courses = useSelector(selectCourses);
+	const authors = useSelector(selectAuthors);
 
 	const filteredCourses = courses.filter((item) => {
 		return (

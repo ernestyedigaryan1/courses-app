@@ -9,7 +9,7 @@ import {
 const CourseInfo = () => {
 	const { id } = useParams();
 
-	const authors = useSelector(selectAuthors());
+	const authors = useSelector(selectAuthors);
 	const course = useSelector(selectCourse(id));
 
 	return (

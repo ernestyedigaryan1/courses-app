@@ -9,7 +9,10 @@ import Button from '../../common/Button/Button';
 import { generateID } from '../../helpers/helpers';
 import { createAuthor } from '../../redux/src/store/authors/actionCreators';
 import { createCourse } from '../../redux/src/store/courses/actionCreators';
-import { selectAuthors } from '../../redux/src/selectors/selectors';
+import {
+	filterAuthors,
+	selectAuthors,
+} from '../../redux/src/selectors/selectors';
 
 const CreateCourse = () => {
 	const dispatch = useDispatch();
@@ -23,17 +26,10 @@ const CreateCourse = () => {
 
 	const formattedDuration = humanizeDuration(duration * 60000);
 
-	const authors = useSelector(selectAuthors());
+	const authors = useSelector(selectAuthors);
 
 	useEffect(
-		() =>
-			setFilteredAuthors(
-				authors.filter((author) => {
-					return !JSON.stringify(selectedAuthors).includes(
-						JSON.stringify(author.id)
-					);
-				})
-			),
+		() => setFilteredAuthors(filterAuthors(authors, selectedAuthors)),
 		[selectedAuthors, authors]
 	);
 
@@ -42,7 +38,7 @@ const CreateCourse = () => {
 			setAuthorQuery('');
 			return alert('Input field must be no less than 2 letters.');
 		}
-		dispatch(createAuthor({ id: generateID(), name: authorQuery }));
+		dispatch(createAuthor(authorQuery));
 		setAuthorQuery('');
 	};
 

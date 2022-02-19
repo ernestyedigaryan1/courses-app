@@ -1,8 +1,8 @@
 import * as actions from './actionTypes';
+import { generateID } from '../../../../helpers/helpers';
 
 export const putAuthors = (authors) => ({ type: actions.PUT_AUTHORS, authors });
-export const removeAuthor = (id) => ({ type: actions.REMOVE_AUTHOR, id });
-export const createAuthor = (author) => ({
+export const createAuthor = (authorName) => ({
 	type: actions.CREATE_AUTHOR,
-	author,
+	author: { id: generateID(), name: authorName },
 });
