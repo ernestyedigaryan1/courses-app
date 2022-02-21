@@ -16,7 +16,6 @@ import {
 
 const CreateCourse = () => {
 	const dispatch = useDispatch();
-	const [filteredAuthors, setFilteredAuthors] = useState([]);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [authorQuery, setAuthorQuery] = useState('');
@@ -28,10 +27,7 @@ const CreateCourse = () => {
 
 	const authors = useSelector(selectAuthors);
 
-	useEffect(
-		() => setFilteredAuthors(filterAuthors(authors, selectedAuthors)),
-		[selectedAuthors, authors]
-	);
+	const filteredAuthors = filterAuthors(authors, selectedAuthors);
 
 	const addAuthor = () => {
 		if (authorQuery.length < 2) {

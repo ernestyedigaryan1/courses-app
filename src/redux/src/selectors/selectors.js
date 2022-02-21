@@ -8,6 +8,6 @@ export const selectAuthors = (state) => state.authors;
 
 export const filterAuthors = (authors, selectedAuthors) => {
 	return authors.filter((author) => {
-		return !JSON.stringify(selectedAuthors).includes(JSON.stringify(author.id));
+		return !selectedAuthors.some((item) => item.id === author.id);
 	});
 };
