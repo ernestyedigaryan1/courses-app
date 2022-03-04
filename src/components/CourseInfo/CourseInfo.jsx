@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
-
 import { Link, useParams } from 'react-router-dom';
-import { getCourseById } from '../../services/getCourseById';
+import { useSelector } from 'react-redux';
 
-const CourseInfo = ({ authors }) => {
+import {
+	selectAuthors,
+	selectCourse,
+} from '../../redux/src/selectors/selectors';
+
+const CourseInfo = () => {
 	const { id } = useParams();
 
-	const [course, setCourse] = useState(null);
-
-	useEffect(() => {
-		getCourseById(id).then((response) => setCourse(response));
-	}, [id]);
+	const authors = useSelector(selectAuthors);
+	const course = useSelector(selectCourse(id));
 
 	return (
 		<div className='container'>

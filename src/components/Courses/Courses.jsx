@@ -4,9 +4,18 @@ import { useState } from 'react';
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
+import { useSelector } from 'react-redux';
 
-const Courses = ({ courses, authors }) => {
+import {
+	selectAuthors,
+	selectCourses,
+} from '../../redux/src/selectors/selectors';
+
+const Courses = () => {
 	const [searchQuery, setSearchQuery] = useState('');
+
+	const courses = useSelector(selectCourses);
+	const authors = useSelector(selectAuthors);
 
 	const filteredCourses = courses.filter((item) => {
 		return (
