@@ -9,6 +9,11 @@ export const coursesReducer = (state, action) => {
 		case 'createCourse':
 			const { course } = action;
 			return [...state, course];
+		case 'updateCourse':
+			const { courseId, courseInfo } = action;
+			const foundIndex = state.findIndex((course) => course.id === courseId);
+			state[foundIndex] = courseInfo;
+			return state;
 		default:
 			return state;
 	}

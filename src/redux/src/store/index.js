@@ -2,6 +2,8 @@ import { createStore } from 'redux';
 import { coursesReducer } from './courses/reducer';
 import { authorsReducer } from './authors/reducer';
 import { userReducer } from './user/reducer';
+import { applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 const initialState = {
 	user: {
@@ -9,6 +11,7 @@ const initialState = {
 		name: '',
 		email: '',
 		token: '',
+		role: '',
 	},
 	courses: [],
 	authors: [],
@@ -22,6 +25,6 @@ function rootReducer(state = initialState, action) {
 	};
 }
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;
