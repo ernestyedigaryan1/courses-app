@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import { postFetch } from '../../services/postFetch';
+import { ENDPOINTS } from '../../helpers/constants';
 
 const Registration = () => {
 	const [user, setUser] = useState({
@@ -15,7 +16,7 @@ const Registration = () => {
 
 	const userRegister = async (e) => {
 		e.preventDefault();
-		postFetch('/login', user).then((response) => {
+		postFetch(ENDPOINTS.LOGIN, user).then((response) => {
 			if (response.successful) {
 				history.push('/login');
 			} else {
@@ -49,7 +50,11 @@ const Registration = () => {
 					placeholderText='Enter password...'
 				/>
 				<div className='d-grid col-6 mx-auto'>
-					<Button text='Register' color='btn btn-outline-success rounded-0' />
+					<Button
+						type='submit'
+						text='Register'
+						color='btn btn-outline-success rounded-0'
+					/>
 				</div>
 			</form>
 			<p className='text-center mt-2'>

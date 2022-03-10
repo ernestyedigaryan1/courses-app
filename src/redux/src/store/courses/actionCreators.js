@@ -6,3 +6,8 @@ export const createCourse = (course) => ({
 	type: actions.CREATE_COURSE,
 	course,
 });
+export const updateCourse = (courseId, courseInfo) => ({
+	type: actions.UPDATE_COURSE,
+	courseId,
+	courseInfo,
+});

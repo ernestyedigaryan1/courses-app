@@ -6,6 +6,7 @@ import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import { postFetch } from '../../services/postFetch';
 import { putUser } from '../../redux/src/store/user/actionCreators';
+import { ENDPOINTS } from '../../helpers/constants';
 
 const Login = () => {
 	const [user, setUser] = useState({
@@ -17,7 +18,8 @@ const Login = () => {
 
 	const userLogin = async (e) => {
 		e.preventDefault();
-		postFetch('/login', user).then((response) => {
+		postFetch(ENDPOINTS.LOGIN, user).then((response) => {
+			const role = response.user.email === 'admin@email.com' ? 'admin' : '';
 			if (response.successful) {
 				dispatch(
 					putUser({
@@ -25,6 +27,7 @@ const Login = () => {
 						name: response.user.name,
 						email: response.user.email,
 						token: response.result,
+						role: role,
 					})
 				);
 				localStorage.setItem('token', response.result);
@@ -55,7 +58,11 @@ const Login = () => {
 					placeholderText='Enter password...'
 				/>
 				<div className='d-grid col-6 mx-auto'>
-					<Button text='Login' color='btn btn-outline-success rounded-0' />
+					<Button
+						type='submit'
+						text='Login'
+						color='btn btn-outline-success rounded-0'
+					/>
 				</div>
 			</form>
 			<p className='text-center mt-2'>

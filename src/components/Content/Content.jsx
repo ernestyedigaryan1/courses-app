@@ -5,17 +5,16 @@ import { useDispatch } from 'react-redux';
 import Courses from '../Courses/Courses';
 import CourseInfo from '../CourseInfo/CourseInfo';
 import CreateCourse from '../CreateCourse/CreateCourse';
-import { getAuthors } from '../../services/getAuthors';
-import { getCourses } from '../../services/getCourses';
-import { putCourses } from '../../redux/src/store/courses/actionCreators';
-import { putAuthors } from '../../redux/src/store/authors/actionCreators';
+import PrivateRouter from '../PrivateRouter/PrivateRouter';
+import { loadAuthors, loadCourses } from '../../services/loadData';
+import UpdateCourse from '../UpdateCourse/UpdateCourse';
 
 const Content = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		getAuthors().then((response) => dispatch(putAuthors(response.result)));
-		getCourses().then((response) => dispatch(putCourses(response.result)));
+		dispatch(loadCourses());
+		dispatch(loadAuthors());
 	}, [dispatch]);
 
 	return (
@@ -23,12 +22,15 @@ const Content = () => {
 			<Route exact path='/courses'>
 				<Courses />
 			</Route>
-			<Route path='/courses/add'>
+			<PrivateRouter path='/courses/add'>
 				<CreateCourse />
-			</Route>
+			</PrivateRouter>
 			<Route exact path='/courses/:id'>
 				<CourseInfo />
 			</Route>
+			<PrivateRouter exact path='/courses/update/:courseId'>
+				<UpdateCourse />
+			</PrivateRouter>
 			<Route path='/'>
 				<Courses />
 			</Route>
