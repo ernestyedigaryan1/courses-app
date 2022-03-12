@@ -17,18 +17,21 @@ const CourseCard = ({ id, title, description, authors, duration, created }) => {
 	};
 
 	return (
-		<div className='card border-success mt-3 mb-3 rounded-0'>
+		<div
+			data-testid='courseCard'
+			className='card border-success mt-3 mb-3 rounded-0'
+		>
 			<div className='row m-3'>
 				<div className='col-8'>
 					<h3>{title}</h3>
 					<p>{description}</p>
 				</div>
 				<div className='col-4'>
-					<p>
+					<p data-testid='courseAuthors'>
 						<b>Authors: </b>
 						{authors.join(', ')}
 					</p>
-					<p>
+					<p data-testid='courseDuration'>
 						<b>Duration:</b> {formattedDuration}
 					</p>
 					<p>
