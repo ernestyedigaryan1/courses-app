@@ -18,8 +18,8 @@ const mockedState = {
 			authors: ['John Wick', 'Batman'],
 			created: '09/03/2022',
 			description: 'React is the best',
-			duration: 1200
-		}
+			duration: 1200,
+		},
 	],
 	authors: [],
 };
@@ -30,25 +30,33 @@ const mockedStore = {
 };
 
 it('Check course info is displayed on the page in the correct format', () => {
-	const screen = render(<Provider store={mockedStore}>
-		<Router>
-			<CourseCard
-				key={mockedState.courses[0].key}
-				id={mockedState.courses[0].id}
-				title={mockedState.courses[0].title}
-				authors={mockedState.courses[0].authors}
-				created={mockedState.courses[0].created}
-				description={mockedState.courses[0].description}
-				duration={mockedState.courses[0].duration}
-			/>
-		</Router>
-	</Provider>);
+	const screen = render(
+		<Provider store={mockedStore}>
+			<Router>
+				<CourseCard
+					key={mockedState.courses[0].key}
+					id={mockedState.courses[0].id}
+					title={mockedState.courses[0].title}
+					authors={mockedState.courses[0].authors}
+					created={mockedState.courses[0].created}
+					description={mockedState.courses[0].description}
+					duration={mockedState.courses[0].duration}
+				/>
+			</Router>
+		</Provider>
+	);
 
-	const formattedDuration = humanizeDuration(mockedState.courses[0].duration * 60000);
+	const formattedDuration = humanizeDuration(
+		mockedState.courses[0].duration * 60000
+	);
 
 	expect(screen.queryByText('ReactJS')).toBeInTheDocument();
 	expect(screen.queryByText('React is the best')).toBeInTheDocument();
 	expect(screen.queryByText('09/03/2022')).toBeInTheDocument();
-	expect(screen.getByTestId('courseAuthors')).toHaveTextContent(mockedState.courses[0].authors.join((', ')));
-	expect(screen.getByTestId('courseDuration')).toHaveTextContent(`Duration: ${formattedDuration}`);
+	expect(screen.getByTestId('courseAuthors')).toHaveTextContent(
+		mockedState.courses[0].authors.join(', ')
+	);
+	expect(screen.getByTestId('courseDuration')).toHaveTextContent(
+		`Duration: ${formattedDuration}`
+	);
 });

@@ -21,15 +21,19 @@ const mockedStore = {
 afterEach(cleanup);
 
 it('Check username is displayed on the page', () => {
-	const screen = render(<Provider store={mockedStore}>
-		<Header />
-	</Provider>);
+	const screen = render(
+		<Provider store={mockedStore}>
+			<Header />
+		</Provider>
+	);
 	expect(screen.queryByText('Test Name')).toBeInTheDocument();
-})
+});
 
 it('Check logo is displayed on the page', () => {
-	const screen = render(<Provider store={mockedStore}>
-		<Header />
-	</Provider>);
+	const screen = render(
+		<Provider store={mockedStore}>
+			<Header />
+		</Provider>
+	);
 	expect(screen.getByTestId('logo')).toBeInTheDocument();
-})
+});
