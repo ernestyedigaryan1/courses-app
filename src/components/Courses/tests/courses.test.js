@@ -1,8 +1,9 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, getByTestId, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import Courses from '../Courses';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import CourseForm from '../../CourseForm/CourseForm';
 
 const mockedState = {
 	user: {
@@ -37,7 +38,7 @@ const mockedStore = {
 
 afterEach(cleanup);
 
-it('Check username is displayed on the page', () => {
+it('Check 2 courses is displayed on the page', () => {
 	const screen = render(
 		<Provider store={mockedStore}>
 			<Router>
@@ -49,7 +50,7 @@ it('Check username is displayed on the page', () => {
 	expect(screen.getAllByTestId('courseCard')).toHaveLength(2);
 });
 
-it('Check username is displayed on the page', () => {
+it('Check courses is not displayed on the page', () => {
 	mockedState.courses = [];
 	const screen = render(
 		<Provider store={mockedStore}>
@@ -62,4 +63,25 @@ it('Check username is displayed on the page', () => {
 	expect(
 		screen.queryByText('Oops... There is no course with that name')
 	).toBeInTheDocument();
+});
+
+it('Check course form is displayed after clicking on add new course', () => {
+	mockedState.user.role = 'admin';
+	const screen = render(
+		<Provider store={mockedStore}>
+			<Router>
+				<Route>
+					<Courses />
+				</Route>
+				<Route>
+					<CourseForm />
+				</Route>
+			</Router>
+		</Provider>
+	);
+
+	const createCourse = screen.getByTestId('createCourse');
+	createCourse.click();
+
+	expect(screen.getByTestId('courseForm')).toBeInTheDocument();
 });

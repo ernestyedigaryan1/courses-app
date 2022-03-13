@@ -38,7 +38,7 @@ const Courses = () => {
 				<SearchBar onSearch={(query) => setSearchQuery(query)} />
 				<div className='col-3 mt-3'>
 					{currentUser.role === 'admin' ? (
-						<Link to='/courses/add'>
+						<Link data-testid='createCourse' to='/courses/add'>
 							<Button
 								text='Add new course'
 								color='btn btn-outline-primary rounded-0'
