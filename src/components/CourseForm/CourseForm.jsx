@@ -129,7 +129,7 @@ const CourseForm = ({ id }) => {
 	};
 
 	return (
-		<form onSubmit={(e) => dataPublish(e)}>
+		<form data-testid='courseForm' onSubmit={(e) => dataPublish(e)}>
 			<section className='row justify-content-between'>
 				<div className='col-4'>
 					<Input
